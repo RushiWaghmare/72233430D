@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import AverageCalculatorApp from './pages/index.jsx';
 
 function App() {
   const [authToken, setAuthToken] = useState("");
 
-  // Use your registration response data here
+  // Your registration data for auth request
   const registrationData = {
     email: "rushiwaghmare789@gmail.com",
     name: "rushikesh ratnakar waghmare",
@@ -16,7 +17,10 @@ function App() {
 
   const getAuthToken = async () => {
     try {
-      const response = await axios.post("http://20.244.56.144/evaluation-service/auth", registrationData);
+      const response = await axios.post(
+        "http://20.244.56.144/evaluation-service/auth",
+        registrationData
+      );
 
       console.log("✅ Auth Token Response:", response.data);
       setAuthToken(response.data.token);
@@ -28,19 +32,27 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "30px", fontFamily: "Arial" }}>
-      <h2>Get Authorization Token</h2>
-      <button onClick={getAuthToken} style={{ padding: "10px 20px", fontSize: "16px" }}>
-        Get Auth Token
-      </button>
+    <>
+      <div style={{ padding: "30px", fontFamily: "Arial" }}>
+        <h2>Get Authorization Token</h2>
+        <button onClick={getAuthToken} style={{ padding: "10px 20px", fontSize: "16px" }}>
+          Get Auth Token
+        </button>
 
-      {authToken && (
-        <div style={{ marginTop: "20px" }}>
-          <strong>Authorization Token:</strong>
-          <pre style={{ backgroundColor: "#eee", padding: "10px" }}>{authToken}</pre>
-        </div>
-      )}
-    </div>
+        {authToken && (
+          <div style={{ marginTop: "20px" }}>
+            <strong>Authorization Token:</strong>
+            <pre style={{ backgroundColor: "#eee", padding: "10px", wordBreak: "break-all" }}>
+              {authToken}
+            </pre>
+          </div>
+        )}
+      </div>
+
+      <div className="App">
+        <AverageCalculatorApp authToken={authToken} />
+      </div>
+    </>
   );
 }
 
